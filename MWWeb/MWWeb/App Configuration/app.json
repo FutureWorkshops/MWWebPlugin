@@ -1,0 +1,38 @@
+{
+    "gatherAnalytics": false,
+    "id": 460,
+    "locales": [],
+    "name": "Web",
+    "navigationStyle": "list",
+    "servers": [],
+    "systemTintColor": "blue",
+    "workflows": [
+        {
+            "id": 841,
+            "identifier": "Web",
+            "materialIconName": "",
+            "name": "Web",
+            "navigationRules": [
+                {
+                    "from": "future_workshops",
+                    "rules": [
+                        {
+                            "to": "ORKNullStepIdentifier"
+                        }
+                    ]
+                }
+            ],
+            "sfSymbolName": "",
+            "steps": [
+                {
+                    "identifier": "future_workshops",
+                    "optional": false,
+                    "title": "Future Workshops",
+                    "type": "io.mobileworkflow.WebView",
+                    "url": "https://www.fws.io",
+                    "uuid": "e0b815ab-e57e-4f16-a0ee-526bbd552474"
+                }
+            ]
+        }
+    ]
+}

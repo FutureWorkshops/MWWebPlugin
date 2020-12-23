@@ -1,3 +1,18 @@
-PODFILE CHECKSUM: 214aca27f9eae73cbfe42769f72f3a2e398b1e6c
+PODS:
+  - MobileWorkflow (0.0.61):
+    - MobileWorkflow/Core (= 0.0.61)
+  - MobileWorkflow/Core (0.0.61)
+
+DEPENDENCIES:
+  - MobileWorkflow
+
+SPEC REPOS:
+  https://github.com/FutureWorkshops/FWTPodspecs.git:
+    - MobileWorkflow
+
+SPEC CHECKSUMS:
+  MobileWorkflow: cfcce71997009c578a1ce873a161ce19a2571f27
+
+PODFILE CHECKSUM: 18d5efaa4349f52783f3f5888938d5a15396fe96
 
 COCOAPODS: 1.10.0
