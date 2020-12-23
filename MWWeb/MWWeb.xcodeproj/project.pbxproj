@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		424FDDB851697421BE165C7E /* Pods_MWWeb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AF957CD998A7618427B9397 /* Pods_MWWeb.framework */; };
+		B1F82CFB25935D28007551D2 /* MWWebPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */; };
+		B1F82CFC25935D28007551D2 /* MWWebPlugin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B75028B51C5A3F94000EB3CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75028B41C5A3F94000EB3CF /* AppDelegate.swift */; };
 		B75028BC1C5A3F94000EB3CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B75028BB1C5A3F94000EB3CF /* Assets.xcassets */; };
 		B75028BF1C5A3F94000EB3CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B75028BD1C5A3F94000EB3CF /* LaunchScreen.storyboard */; };
@@ -24,11 +26,26 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		B1F82CFD25935D28007551D2 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				B1F82CFC25935D28007551D2 /* MWWebPlugin.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		2AF957CD998A7618427B9397 /* Pods_MWWeb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWeb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		78C0E9BB20BC315100255055 /* MWWeb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWWeb.entitlements; sourceTree = "<group>"; };
 		92D1E2B92EAC52EE38D851C7 /* Pods-MWWeb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb.release.xcconfig"; path = "Target Support Files/Pods-MWWeb/Pods-MWWeb.release.xcconfig"; sourceTree = "<group>"; };
 		985323CD8FB1577BE22EBE07 /* Pods-MWWeb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb.debug.xcconfig"; path = "Target Support Files/Pods-MWWeb/Pods-MWWeb.debug.xcconfig"; sourceTree = "<group>"; };
+		B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MWWebPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B75028B11C5A3F94000EB3CF /* MWWeb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWWeb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B75028B41C5A3F94000EB3CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B75028BB1C5A3F94000EB3CF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -45,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B1F82CFB25935D28007551D2 /* MWWebPlugin.framework in Frameworks */,
 				424FDDB851697421BE165C7E /* Pods_MWWeb.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -62,6 +80,7 @@
 		186A456E0D80DE0E8CF64F96 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */,
 				2AF957CD998A7618427B9397 /* Pods_MWWeb.framework */,
 			);
 			name = Frameworks;
@@ -154,6 +173,7 @@
 				B75028AD1C5A3F94000EB3CF /* Sources */,
 				B75028AE1C5A3F94000EB3CF /* Frameworks */,
 				B75028AF1C5A3F94000EB3CF /* Resources */,
+				B1F82CFD25935D28007551D2 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
