@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		424FDDB851697421BE165C7E /* Pods_MWWeb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2AF957CD998A7618427B9397 /* Pods_MWWeb.framework */; };
+		67462D20C2CA169244A655FE /* Pods_MWWeb_MWWeb.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C6CE537ACA3D2B875790D41 /* Pods_MWWeb_MWWeb.framework */; };
 		B1F82CFB25935D28007551D2 /* MWWebPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */; };
 		B1F82CFC25935D28007551D2 /* MWWebPlugin.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B75028B51C5A3F94000EB3CF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75028B41C5A3F94000EB3CF /* AppDelegate.swift */; };
 		B75028BC1C5A3F94000EB3CF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B75028BB1C5A3F94000EB3CF /* Assets.xcassets */; };
 		B75028BF1C5A3F94000EB3CF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B75028BD1C5A3F94000EB3CF /* LaunchScreen.storyboard */; };
 		B75028CA1C5A3F94000EB3CF /* MWWebTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B75028C91C5A3F94000EB3CF /* MWWebTests.swift */; };
+		E8EADB69ED04A43C6FAFFED0 /* Pods_MWWebTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B5DA9EECF76876197D5FD68 /* Pods_MWWebTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,10 +42,14 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		2AF957CD998A7618427B9397 /* Pods_MWWeb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWeb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		280174F0967B6604B1C51A06 /* Pods-MWWebTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWebTests.release.xcconfig"; path = "Target Support Files/Pods-MWWebTests/Pods-MWWebTests.release.xcconfig"; sourceTree = "<group>"; };
+		3B5DA9EECF76876197D5FD68 /* Pods_MWWebTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWebTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		60D7078AD98C8F21642EF4E4 /* Pods-MWWeb-MWWeb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb-MWWeb.release.xcconfig"; path = "Target Support Files/Pods-MWWeb-MWWeb/Pods-MWWeb-MWWeb.release.xcconfig"; sourceTree = "<group>"; };
+		73006EB91452CF528175894A /* Pods-MWWebTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWebTests.debug.xcconfig"; path = "Target Support Files/Pods-MWWebTests/Pods-MWWebTests.debug.xcconfig"; sourceTree = "<group>"; };
 		78C0E9BB20BC315100255055 /* MWWeb.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MWWeb.entitlements; sourceTree = "<group>"; };
 		92D1E2B92EAC52EE38D851C7 /* Pods-MWWeb.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb.release.xcconfig"; path = "Target Support Files/Pods-MWWeb/Pods-MWWeb.release.xcconfig"; sourceTree = "<group>"; };
 		985323CD8FB1577BE22EBE07 /* Pods-MWWeb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb.debug.xcconfig"; path = "Target Support Files/Pods-MWWeb/Pods-MWWeb.debug.xcconfig"; sourceTree = "<group>"; };
+		9C6CE537ACA3D2B875790D41 /* Pods_MWWeb_MWWeb.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWeb_MWWeb.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = MWWebPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B75028B11C5A3F94000EB3CF /* MWWeb.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MWWeb.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B75028B41C5A3F94000EB3CF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -55,6 +60,7 @@
 		B75028C91C5A3F94000EB3CF /* MWWebTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWWebTests.swift; sourceTree = "<group>"; };
 		B75028CB1C5A3F94000EB3CF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B75028D71C5A4093000EB3CF /* fw-shared.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = "fw-shared.xcconfig"; sourceTree = "<group>"; };
+		F756FAB993F64E9F1C147B0F /* Pods-MWWeb-MWWeb.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb-MWWeb.debug.xcconfig"; path = "Target Support Files/Pods-MWWeb-MWWeb/Pods-MWWeb-MWWeb.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,7 +69,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1F82CFB25935D28007551D2 /* MWWebPlugin.framework in Frameworks */,
-				424FDDB851697421BE165C7E /* Pods_MWWeb.framework in Frameworks */,
+				67462D20C2CA169244A655FE /* Pods_MWWeb_MWWeb.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E8EADB69ED04A43C6FAFFED0 /* Pods_MWWebTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +88,8 @@
 			isa = PBXGroup;
 			children = (
 				B1F82CFA25935D28007551D2 /* MWWebPlugin.framework */,
-				2AF957CD998A7618427B9397 /* Pods_MWWeb.framework */,
+				9C6CE537ACA3D2B875790D41 /* Pods_MWWeb_MWWeb.framework */,
+				3B5DA9EECF76876197D5FD68 /* Pods_MWWebTests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -91,6 +99,10 @@
 			children = (
 				985323CD8FB1577BE22EBE07 /* Pods-MWWeb.debug.xcconfig */,
 				92D1E2B92EAC52EE38D851C7 /* Pods-MWWeb.release.xcconfig */,
+				F756FAB993F64E9F1C147B0F /* Pods-MWWeb-MWWeb.debug.xcconfig */,
+				60D7078AD98C8F21642EF4E4 /* Pods-MWWeb-MWWeb.release.xcconfig */,
+				73006EB91452CF528175894A /* Pods-MWWebTests.debug.xcconfig */,
+				280174F0967B6604B1C51A06 /* Pods-MWWebTests.release.xcconfig */,
 			);
 			name = Pods;
 			path = ../Pods;
@@ -174,6 +186,7 @@
 				B75028AE1C5A3F94000EB3CF /* Frameworks */,
 				B75028AF1C5A3F94000EB3CF /* Resources */,
 				B1F82CFD25935D28007551D2 /* Embed Frameworks */,
+				48674912A518944869B0F981 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -188,6 +201,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B75028D11C5A3F94000EB3CF /* Build configuration list for PBXNativeTarget "MWWebTests" */;
 			buildPhases = (
+				A70099405A643EE86219D704 /* [CP] Check Pods Manifest.lock */,
 				B75028C11C5A3F94000EB3CF /* Sources */,
 				B75028C21C5A3F94000EB3CF /* Frameworks */,
 				B75028C31C5A3F94000EB3CF /* Resources */,
@@ -269,6 +283,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		48674912A518944869B0F981 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-MWWeb-MWWeb/Pods-MWWeb-MWWeb-frameworks.sh",
+				"${PODS_XCFRAMEWORKS_BUILD_DIR}/MobileWorkflowCore/MobileWorkflowCore.framework/MobileWorkflowCore",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MobileWorkflowCore.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-MWWeb-MWWeb/Pods-MWWeb-MWWeb-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		6B171A47C0F65590741D4BAE /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -284,7 +316,29 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MWWeb-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-MWWeb-MWWeb-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A70099405A643EE86219D704 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MWWebTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -439,7 +493,7 @@
 		};
 		B75028CF1C5A3F94000EB3CF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 985323CD8FB1577BE22EBE07 /* Pods-MWWeb.debug.xcconfig */;
+			baseConfigurationReference = F756FAB993F64E9F1C147B0F /* Pods-MWWeb-MWWeb.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "MWWeb/Supporting Files/MWWeb.entitlements";
@@ -457,7 +511,7 @@
 		};
 		B75028D01C5A3F94000EB3CF /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 92D1E2B92EAC52EE38D851C7 /* Pods-MWWeb.release.xcconfig */;
+			baseConfigurationReference = 60D7078AD98C8F21642EF4E4 /* Pods-MWWeb-MWWeb.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "MWWeb/Supporting Files/MWWeb.entitlements";
@@ -475,6 +529,7 @@
 		};
 		B75028D21C5A3F94000EB3CF /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 73006EB91452CF528175894A /* Pods-MWWebTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Manual;
@@ -491,6 +546,7 @@
 		};
 		B75028D31C5A3F94000EB3CF /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 280174F0967B6604B1C51A06 /* Pods-MWWebTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Manual;

@@ -7,9 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		479FD66C3C153EAFAC84EE31 /* Pods_MWWebPluginTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52E99C8E5C0F109CE7E6414C /* Pods_MWWebPluginTests.framework */; };
 		B1F82CE625935CFC007551D2 /* MWWebPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F82CDC25935CFB007551D2 /* MWWebPlugin.framework */; };
 		B1F82CEB25935CFC007551D2 /* MWWebPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F82CEA25935CFC007551D2 /* MWWebPluginTests.swift */; };
 		B1F82CED25935CFC007551D2 /* MWWebPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = B1F82CDF25935CFB007551D2 /* MWWebPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		B50253AE2839E9E8C5E3BF01 /* Pods_MWWeb_MWWebPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8871F05540D39DD3A4ED4D /* Pods_MWWeb_MWWebPlugin.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,12 +25,18 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E8871F05540D39DD3A4ED4D /* Pods_MWWeb_MWWebPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWeb_MWWebPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1677310B5F3EDAE7C43E29B6 /* Pods-MWWeb-MWWebPlugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb-MWWebPlugin.release.xcconfig"; path = "Target Support Files/Pods-MWWeb-MWWebPlugin/Pods-MWWeb-MWWebPlugin.release.xcconfig"; sourceTree = "<group>"; };
+		52E99C8E5C0F109CE7E6414C /* Pods_MWWebPluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWebPluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		57501220AF8A9F1199717570 /* Pods-MWWebPluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWebPluginTests.debug.xcconfig"; path = "Target Support Files/Pods-MWWebPluginTests/Pods-MWWebPluginTests.debug.xcconfig"; sourceTree = "<group>"; };
+		A4F971E06847C681F48DB23A /* Pods-MWWebPluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWebPluginTests.release.xcconfig"; path = "Target Support Files/Pods-MWWebPluginTests/Pods-MWWebPluginTests.release.xcconfig"; sourceTree = "<group>"; };
 		B1F82CDC25935CFB007551D2 /* MWWebPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MWWebPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1F82CDF25935CFB007551D2 /* MWWebPlugin.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MWWebPlugin.h; sourceTree = "<group>"; };
 		B1F82CE025935CFB007551D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B1F82CE525935CFC007551D2 /* MWWebPluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWWebPluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1F82CEA25935CFC007551D2 /* MWWebPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWWebPluginTests.swift; sourceTree = "<group>"; };
 		B1F82CEC25935CFC007551D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B3811766F532723115D5BD48 /* Pods-MWWeb-MWWebPlugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb-MWWebPlugin.debug.xcconfig"; path = "Target Support Files/Pods-MWWeb-MWWebPlugin/Pods-MWWeb-MWWebPlugin.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B50253AE2839E9E8C5E3BF01 /* Pods_MWWeb_MWWebPlugin.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -44,18 +53,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1F82CE625935CFC007551D2 /* MWWebPlugin.framework in Frameworks */,
+				479FD66C3C153EAFAC84EE31 /* Pods_MWWebPluginTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		315C088EE1EF9306D3AE70C2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0E8871F05540D39DD3A4ED4D /* Pods_MWWeb_MWWebPlugin.framework */,
+				52E99C8E5C0F109CE7E6414C /* Pods_MWWebPluginTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B1F82CD225935CFB007551D2 = {
 			isa = PBXGroup;
 			children = (
 				B1F82CDE25935CFB007551D2 /* MWWebPlugin */,
 				B1F82CE925935CFC007551D2 /* MWWebPluginTests */,
 				B1F82CDD25935CFB007551D2 /* Products */,
+				BA7CCD1747EC7FB0D5B47925 /* Pods */,
+				315C088EE1EF9306D3AE70C2 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -86,6 +107,18 @@
 			path = MWWebPluginTests;
 			sourceTree = "<group>";
 		};
+		BA7CCD1747EC7FB0D5B47925 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B3811766F532723115D5BD48 /* Pods-MWWeb-MWWebPlugin.debug.xcconfig */,
+				1677310B5F3EDAE7C43E29B6 /* Pods-MWWeb-MWWebPlugin.release.xcconfig */,
+				57501220AF8A9F1199717570 /* Pods-MWWebPluginTests.debug.xcconfig */,
+				A4F971E06847C681F48DB23A /* Pods-MWWebPluginTests.release.xcconfig */,
+			);
+			name = Pods;
+			path = ../Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -104,6 +137,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B1F82CF025935CFC007551D2 /* Build configuration list for PBXNativeTarget "MWWebPlugin" */;
 			buildPhases = (
+				416AF597DC08EA8552245E61 /* [CP] Check Pods Manifest.lock */,
 				B1F82CD725935CFB007551D2 /* Headers */,
 				B1F82CD825935CFB007551D2 /* Sources */,
 				B1F82CD925935CFB007551D2 /* Frameworks */,
@@ -122,6 +156,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B1F82CF325935CFC007551D2 /* Build configuration list for PBXNativeTarget "MWWebPluginTests" */;
 			buildPhases = (
+				C6E5688F55DC04594798FF3C /* [CP] Check Pods Manifest.lock */,
 				B1F82CE125935CFC007551D2 /* Sources */,
 				B1F82CE225935CFC007551D2 /* Frameworks */,
 				B1F82CE325935CFC007551D2 /* Resources */,
@@ -188,6 +223,53 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		416AF597DC08EA8552245E61 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MWWeb-MWWebPlugin-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C6E5688F55DC04594798FF3C /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-MWWebPluginTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		B1F82CD825935CFB007551D2 /* Sources */ = {
@@ -340,6 +422,7 @@
 		};
 		B1F82CF125935CFC007551D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B3811766F532723115D5BD48 /* Pods-MWWeb-MWWebPlugin.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -365,6 +448,7 @@
 		};
 		B1F82CF225935CFC007551D2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1677310B5F3EDAE7C43E29B6 /* Pods-MWWeb-MWWebPlugin.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -390,6 +474,7 @@
 		};
 		B1F82CF425935CFC007551D2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 57501220AF8A9F1199717570 /* Pods-MWWebPluginTests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BQHMJ2C6RL;
@@ -408,6 +493,7 @@
 		};
 		B1F82CF525935CFC007551D2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = A4F971E06847C681F48DB23A /* Pods-MWWebPluginTests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = BQHMJ2C6RL;
