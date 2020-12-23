@@ -21,7 +21,7 @@ public class MWWebViewController: ORKStepViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         let sfs = SFSafariViewController(url: self.webStep.url)
-        self.addChild(sfs)
+        self.addCovering(childViewController: sfs)
     }
     
 }
