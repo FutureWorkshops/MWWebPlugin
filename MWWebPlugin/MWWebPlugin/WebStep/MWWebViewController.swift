@@ -20,16 +20,8 @@ public class MWWebViewController: ORKStepViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupWebView()
-        self.loadWebView()
-    }
-    
-    private func setupWebView() {
-        
-    }
-    
-    private func loadWebView() {
-        
+        let sfs = SFSafariViewController(url: self.webStep.url)
+        self.addChild(sfs)
     }
     
 }
