@@ -37,6 +37,7 @@ public class MWWebViewController: ORKStepViewController {
     
     //MARK: Private methods
     private func setupWebView() {
+        self.webView.frame = self.view.bounds
         self.webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         self.view.addSubview(self.webView)
         self.setToolbarItems([
