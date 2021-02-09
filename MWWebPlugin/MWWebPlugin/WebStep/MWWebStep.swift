@@ -27,9 +27,9 @@ public class MWWebStep: ORKStep {
 }
 
 extension MWWebStep: MobileWorkflowStep {
-    public static func build(step stepInfo: StepInfo, services: MobileWorkflowServices) throws -> ORKStep {
-        if let urlString = stepInfo.data.content["url"] as? String, let url = URL(string: urlString) {
-            return MWWebStep(identifier: stepInfo.data.identifier, url: url)
+    public static func build(step: StepInfo, services: MobileWorkflowServices) throws -> ORKStep {
+        if let urlString = step.data.content["url"] as? String, let url = URL(string: urlString) {
+            return MWWebStep(identifier: step.data.identifier, url: url)
         } else {
             throw NSError(domain: "io.mobileworkflow.web", code: 0, userInfo: [NSLocalizedDescriptionKey:"URL missing from the JSON"])
         }
