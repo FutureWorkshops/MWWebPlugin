@@ -11,7 +11,7 @@ import MobileWorkflowCore
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    weak var eventDelegate: AppDelegateEventDelegate?
+    weak var eventDelegate: AppEventDelegate?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         return true
