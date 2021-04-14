@@ -8,7 +8,7 @@
 import Foundation
 import MobileWorkflowCore
 
-public class MWWebStep: ORKStep {
+public class MWWebStep: MWStep {
     
     let url: URL
     
@@ -21,8 +21,8 @@ public class MWWebStep: ORKStep {
         fatalError("init(coder:) has not been implemented")
     }
     
-    public override func stepViewControllerClass() -> AnyClass {
-        return MWWebViewController.self
+    public override func instantiateViewController() -> StepViewController {
+        MWWebViewController(step: self)
     }
 }
 
