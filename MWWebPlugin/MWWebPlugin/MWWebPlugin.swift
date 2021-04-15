@@ -8,13 +8,13 @@
 import Foundation
 import MobileWorkflowCore
 
-public struct MWWebPlugin: MobileWorkflowPlugin {
-    public static var allStepsTypes: [MobileWorkflowStepType] {
+public struct MWWebPlugin: Plugin {
+    public static var allStepsTypes: [StepType] {
         return MWWebStepType.allCases
     }
 }
 
-public enum MWWebStepType: String, MobileWorkflowStepType, CaseIterable {
+public enum MWWebStepType: String, StepType, CaseIterable {
     
     case web = "io.mobileworkflow.WebView"
     
