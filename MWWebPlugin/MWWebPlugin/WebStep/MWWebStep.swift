@@ -26,7 +26,7 @@ public class MWWebStep: MWStep {
     }
 }
 
-extension MWWebStep: MobileWorkflowStep {
+extension MWWebStep: BuildableStep {
     public static func build(stepInfo: StepInfo, services: StepServices) throws -> Step {
         if let urlString = stepInfo.data.content["url"] as? String, let url = URL(string: urlString) {
             return MWWebStep(identifier: stepInfo.data.identifier, url: url)

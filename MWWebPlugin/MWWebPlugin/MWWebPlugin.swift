@@ -22,7 +22,7 @@ public enum MWWebStepType: String, StepType, CaseIterable {
         return self.rawValue
     }
     
-    public var stepClass: MobileWorkflowStep.Type {
+    public var stepClass: BuildableStep.Type {
         switch self {
         case .web: return MWWebStep.self
         }
