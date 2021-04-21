@@ -9,12 +9,12 @@ import WebKit
 import Foundation
 import MobileWorkflowCore
 
-public class MWWebViewController: ORKStepViewController {
+public class MWWebViewController: MWStepViewController {
     
     private let webView = WKWebView()
     private var webStep: MWWebStep {
-        guard let webStep = self.step as? MWWebStep else {
-            preconditionFailure("Unexpected step type. Expecting \(String(describing: MWWebStep.self)), got \(String(describing: type(of: self.step)))")
+        guard let webStep = self.mwStep as? MWWebStep else {
+            preconditionFailure("Unexpected step type. Expecting \(String(describing: MWWebStep.self)), got \(String(describing: type(of: self.mwStep)))")
         }
         return webStep
     }
