@@ -39,6 +39,7 @@ public class MWWebViewController: MWStepViewController {
     private func setupWebView() {
         self.webView.frame = self.view.bounds
         self.webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
+        self.webView.configureAppBoundDomains()
         self.view.addSubview(self.webView)
         self.setToolbarItems([
             UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(self.navigateBack(_:))),
