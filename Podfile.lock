@@ -1,0 +1,18 @@
+PODS:
+  - MobileWorkflow (2.0.0):
+    - MobileWorkflow/Core (= 2.0.0)
+  - MobileWorkflow/Core (2.0.0)
+
+DEPENDENCIES:
+  - MobileWorkflow
+
+SPEC REPOS:
+  https://github.com/FutureWorkshops/MWPodspecs.git:
+    - MobileWorkflow
+
+SPEC CHECKSUMS:
+  MobileWorkflow: a4848ca75ddbdb4eb2d4b1bb4e473f637de09feb
+
+PODFILE CHECKSUM: 40a229c52d1213c42df626393d24c1df8e81f3f9
+
+COCOAPODS: 1.11.2
