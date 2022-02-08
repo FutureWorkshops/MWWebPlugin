@@ -8,7 +8,7 @@
 import Foundation
 import MobileWorkflowCore
 
-public struct MWWebPlugin: Plugin {
+public struct MWWebPluginStruct: Plugin {
     public static var allStepsTypes: [StepType] {
         return MWWebStepType.allCases
     }
