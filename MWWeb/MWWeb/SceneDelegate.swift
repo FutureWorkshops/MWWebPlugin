@@ -15,7 +15,7 @@ class SceneDelegate: MWSceneDelegate {
     override func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         
         self.dependencies.plugins = [
-            MWWebPlugin.self
+            MWWebPluginStruct.self
         ]
         
         super.scene(scene, willConnectTo: session, options: connectionOptions)

@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3683863A2810133200E1959C /* MWWebPluginStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 368386392810133200E1959C /* MWWebPluginStruct.swift */; };
 		479FD66C3C153EAFAC84EE31 /* Pods_MWWebPluginTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 52E99C8E5C0F109CE7E6414C /* Pods_MWWebPluginTests.framework */; };
 		B1F82CE625935CFC007551D2 /* MWWebPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B1F82CDC25935CFB007551D2 /* MWWebPlugin.framework */; };
 		B1F82CEB25935CFC007551D2 /* MWWebPluginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F82CEA25935CFC007551D2 /* MWWebPluginTests.swift */; };
 		B1F82CED25935CFC007551D2 /* MWWebPlugin.h in Headers */ = {isa = PBXBuildFile; fileRef = B1F82CDF25935CFB007551D2 /* MWWebPlugin.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B1F82D1225935E3D007551D2 /* MWWebPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F82D1125935E3D007551D2 /* MWWebPlugin.swift */; };
 		B1F82D1925935ECE007551D2 /* MWWebStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F82D1825935ECE007551D2 /* MWWebStep.swift */; };
 		B1F82D1F25935F3A007551D2 /* MWWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1F82D1E25935F3A007551D2 /* MWWebViewController.swift */; };
 		B50253AE2839E9E8C5E3BF01 /* Pods_MWWeb_MWWebPlugin.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0E8871F05540D39DD3A4ED4D /* Pods_MWWeb_MWWebPlugin.framework */; };
@@ -30,6 +30,7 @@
 /* Begin PBXFileReference section */
 		0E8871F05540D39DD3A4ED4D /* Pods_MWWeb_MWWebPlugin.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWeb_MWWebPlugin.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1677310B5F3EDAE7C43E29B6 /* Pods-MWWeb-MWWebPlugin.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb-MWWebPlugin.release.xcconfig"; path = "Target Support Files/Pods-MWWeb-MWWebPlugin/Pods-MWWeb-MWWebPlugin.release.xcconfig"; sourceTree = "<group>"; };
+		368386392810133200E1959C /* MWWebPluginStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MWWebPluginStruct.swift; sourceTree = "<group>"; };
 		52E99C8E5C0F109CE7E6414C /* Pods_MWWebPluginTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MWWebPluginTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		57501220AF8A9F1199717570 /* Pods-MWWebPluginTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWebPluginTests.debug.xcconfig"; path = "Target Support Files/Pods-MWWebPluginTests/Pods-MWWebPluginTests.debug.xcconfig"; sourceTree = "<group>"; };
 		A4F971E06847C681F48DB23A /* Pods-MWWebPluginTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWebPluginTests.release.xcconfig"; path = "Target Support Files/Pods-MWWebPluginTests/Pods-MWWebPluginTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -39,7 +40,6 @@
 		B1F82CE525935CFC007551D2 /* MWWebPluginTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MWWebPluginTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1F82CEA25935CFC007551D2 /* MWWebPluginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWWebPluginTests.swift; sourceTree = "<group>"; };
 		B1F82CEC25935CFC007551D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B1F82D1125935E3D007551D2 /* MWWebPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWWebPlugin.swift; sourceTree = "<group>"; };
 		B1F82D1825935ECE007551D2 /* MWWebStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWWebStep.swift; sourceTree = "<group>"; };
 		B1F82D1E25935F3A007551D2 /* MWWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MWWebViewController.swift; sourceTree = "<group>"; };
 		B3811766F532723115D5BD48 /* Pods-MWWeb-MWWebPlugin.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MWWeb-MWWebPlugin.debug.xcconfig"; path = "Target Support Files/Pods-MWWeb-MWWebPlugin/Pods-MWWeb-MWWebPlugin.debug.xcconfig"; sourceTree = "<group>"; };
@@ -98,7 +98,7 @@
 		B1F82CDE25935CFB007551D2 /* MWWebPlugin */ = {
 			isa = PBXGroup;
 			children = (
-				B1F82D1125935E3D007551D2 /* MWWebPlugin.swift */,
+				368386392810133200E1959C /* MWWebPluginStruct.swift */,
 				B1F82D1725935E83007551D2 /* WebStep */,
 				B1F82CDF25935CFB007551D2 /* MWWebPlugin.h */,
 				B1F82CE025935CFB007551D2 /* Info.plist */,
@@ -295,8 +295,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				B1F82D1F25935F3A007551D2 /* MWWebViewController.swift in Sources */,
+				3683863A2810133200E1959C /* MWWebPluginStruct.swift in Sources */,
 				B1F82D1925935ECE007551D2 /* MWWebStep.swift in Sources */,
-				B1F82D1225935E3D007551D2 /* MWWebPlugin.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
