@@ -27,11 +27,15 @@ public class MWWebStep: MWStep {
 }
 
 extension MWWebStep: BuildableStep {
+    
+    public static var mandatoryCodingPaths: [CodingKey] {
+        ["url"]
+    }
+    
     public static func build(stepInfo: StepInfo, services: StepServices) throws -> Step {
-        if let urlString = stepInfo.data.content["url"] as? String, let url = URL(string: urlString) {
-            return MWWebStep(identifier: stepInfo.data.identifier, url: url)
-        } else {
-            throw NSError(domain: "io.mobileworkflow.web", code: 0, userInfo: [NSLocalizedDescriptionKey:"URL missing from the JSON"])
+        guard let urlString = stepInfo.data.content["url"] as? String, let url = URL(string: urlString) else {
+            throw ParseError.invalidStepData(cause: "Missing or malformed 'url' property")
         }
+        return MWWebStep(identifier: stepInfo.data.identifier, url: url)
     }
 }
