@@ -9,25 +9,45 @@ import WebKit
 import Foundation
 import MobileWorkflowCore
 
+enum L10n {
+    enum Web {
+        static let unableToResolveURLError = "Failed to construct the final URL"
+    }
+}
+
+enum MWWebStepViewControllerError: LocalizedError {
+    case unableToResolveURL
+    
+    var errorDescription: String? {
+        switch self {
+        case .unableToResolveURL:
+            return L10n.Web.unableToResolveURLError
+        }
+    }
+    
+    var localizedDescription: String {
+        return self.errorDescription ?? L10n.Web.unableToResolveURLError
+    }
+}
+
 public class MWWebViewController: MWStepViewController {
     
     private let webView = WKWebView()
-    private var webStep: MWWebStep {
-        guard let webStep = self.mwStep as? MWWebStep else {
-            preconditionFailure("Unexpected step type. Expecting \(String(describing: MWWebStep.self)), got \(String(describing: type(of: self.mwStep)))")
-        }
-        return webStep
-    }
+    private var webStep: MWWebStep { self.step as! MWWebStep }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupWebView()
-        self.load(url: self.webStep.url)
+        
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.navigationController?.setToolbarHidden(false, animated: animated)
+        
+        if self.isMovingToParent {
+            self.loadOriginal()
+        }
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -51,6 +71,14 @@ public class MWWebViewController: MWStepViewController {
         ], animated: false)
     }
     
+    private func loadOriginal() {
+        guard let url = self.webStep.resolvedUrl else {
+            self.show(MWWebStepViewControllerError.unableToResolveURL)
+            return
+        }
+        self.load(url: url)
+    }
+    
     private func load(url: URL) {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60)
         self.webView.load(request)
@@ -70,13 +98,12 @@ public class MWWebViewController: MWStepViewController {
     }
     
     @IBAction private func reloadCurrentPageOrOriginal(_ sender: UIBarButtonItem) {
-        let urlToReload: URL
+        let urlToReload: URL?
         if let currentUrl = self.webView.url {
-            urlToReload = currentUrl
+            self.load(url: currentUrl)
         } else {
-            urlToReload = self.webStep.url
+            self.loadOriginal()
         }
-        self.load(url: urlToReload)
     }
     
     @IBAction private func continueToNextStep(_ sender: UIBarButtonItem) {

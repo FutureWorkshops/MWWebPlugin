@@ -10,10 +10,16 @@ import MobileWorkflowCore
 
 public class MWWebStep: MWStep {
     
-    let url: URL
+    let url: String
+    let session: Session
     
-    init(identifier: String, url: URL) {
+    var resolvedUrl: URL? {
+        self.session.resolve(url: self.url)
+    }
+    
+    init(identifier: String, url: String, session: Session) {
         self.url = url
+        self.session = session
         super.init(identifier: identifier)
     }
     
@@ -33,9 +39,9 @@ extension MWWebStep: BuildableStep {
     }
     
     public static func build(stepInfo: StepInfo, services: StepServices) throws -> Step {
-        guard let urlString = stepInfo.data.content["url"] as? String, let url = URL(string: urlString) else {
-            throw ParseError.invalidStepData(cause: "Missing or malformed 'url' property")
+        guard let url = stepInfo.data.content["url"] as? String else {
+            throw ParseError.invalidStepData(cause: "Missing 'url' property")
         }
-        return MWWebStep(identifier: stepInfo.data.identifier, url: url)
+        return MWWebStep(identifier: stepInfo.data.identifier, url: url, session: stepInfo.session)
     }
 }
