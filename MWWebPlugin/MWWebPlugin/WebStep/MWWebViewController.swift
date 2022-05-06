@@ -11,6 +11,8 @@ import MobileWorkflowCore
 
 public class MWWebViewController: MWStepViewController {
     
+    public override var titleMode: StepViewControllerTitleMode { .smallTitle }
+    
     private let webView = WKWebView()
     private var webStep: MWWebStep {
         guard let webStep = self.mwStep as? MWWebStep else {
@@ -37,9 +39,7 @@ public class MWWebViewController: MWStepViewController {
     
     //MARK: Private methods
     private func setupWebView() {
-        self.webView.frame = self.view.bounds
-        self.webView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
-        self.view.addSubview(self.webView)
+        self.view.addPinnedSubview(self.webView, verticalLayoutGuide: self.view.safeAreaLayoutGuide)
         self.setToolbarItems([
             UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(self.navigateBack(_:))),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
