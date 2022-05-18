@@ -24,7 +24,7 @@ public class MWWebViewController: MWStepViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupWebView()
-        self.load(url: self.webStep.url)
+        self.resolveUrlAndLoad()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
@@ -51,6 +51,14 @@ public class MWWebViewController: MWStepViewController {
         ], animated: false)
     }
     
+    private func resolveUrlAndLoad() {
+        if let resolvedUrl = self.webStep.resolvedUrl {
+            self.load(url: resolvedUrl)
+        } else {
+            self.show(WebViewError.unableToResolveURL)
+        }
+    }
+    
     private func load(url: URL) {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60)
         self.webView.load(request)
@@ -70,17 +78,14 @@ public class MWWebViewController: MWStepViewController {
     }
     
     @IBAction private func reloadCurrentPageOrOriginal(_ sender: UIBarButtonItem) {
-        let urlToReload: URL
         if let currentUrl = self.webView.url {
-            urlToReload = currentUrl
+            self.load(url: currentUrl)
         } else {
-            urlToReload = self.webStep.url
+            self.resolveUrlAndLoad()
         }
-        self.load(url: urlToReload)
     }
     
     @IBAction private func continueToNextStep(_ sender: UIBarButtonItem) {
         self.goForward()
     }
-    
 }
