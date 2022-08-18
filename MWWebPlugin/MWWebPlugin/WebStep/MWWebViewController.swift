@@ -47,7 +47,7 @@ public class MWWebViewController: MWStepViewController {
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
             UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(self.reloadCurrentPageOrOriginal(_:))),
             UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
+            UIBarButtonItem(title: self.webStep.translate(text: "Continue"), style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
         ], animated: false)
     }
     

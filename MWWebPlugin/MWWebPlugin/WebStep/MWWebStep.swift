@@ -12,14 +12,16 @@ public class MWWebStep: MWStep {
     
     let url: String
     let session: Session
+    let services: StepServices
     
     var resolvedUrl: URL? {
         self.session.resolve(url: url)
     }
     
-    init(identifier: String, url: String, session: Session) {
+    init(identifier: String, url: String, session: Session, services: StepServices) {
         self.url = url
         self.session = session
+        self.services = services
         super.init(identifier: identifier)
     }
     
@@ -29,6 +31,10 @@ public class MWWebStep: MWStep {
     
     public override func instantiateViewController() -> StepViewController {
         MWWebViewController(step: self)
+    }
+    
+    public func translate(text: String) -> String {
+        return self.services.localizationService.translate(text) ?? text
     }
 }
 
@@ -42,7 +48,7 @@ extension MWWebStep: BuildableStep {
         guard let url = stepInfo.data.content["url"] as? String else {
             throw ParseError.invalidStepData(cause: "Mandatory 'url' property not found")
         }
-        return MWWebStep(identifier: stepInfo.data.identifier, url: url, session: stepInfo.session)
+        return MWWebStep(identifier: stepInfo.data.identifier, url: url, session: stepInfo.session, services: services)
     }
 }
 
