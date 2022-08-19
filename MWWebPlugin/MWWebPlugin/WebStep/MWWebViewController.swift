@@ -12,6 +12,7 @@ import MobileWorkflowCore
 public class MWWebViewController: MWStepViewController {
     
     public override var titleMode: StepViewControllerTitleMode { .smallTitle }
+    lazy var continueButton = UIBarButtonItem(title: self.webStep.translate(text: "Next"), style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
     
     private let webView = WKWebView()
     private var webStep: MWWebStep {
@@ -20,8 +21,8 @@ public class MWWebViewController: MWStepViewController {
         }
         return webStep
     }
-    private var showToolbar: Bool {
-        self.hasNextStep() || !self.webStep.hideNavigation
+    private var hideNavigation: Bool {
+        return self.webStep.hideNavigation
     }
     
     public override func viewDidLoad() {
@@ -32,14 +33,16 @@ public class MWWebViewController: MWStepViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if (self.showToolbar) {
+        if (!self.hideNavigation) {
             self.navigationController?.setToolbarHidden(false, animated: animated)
+        } else {
+            self.configureNavigationBar()
         }
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        if (self.showToolbar) {
+        if (!self.hideNavigation) {
             self.navigationController?.setToolbarHidden(true, animated: animated)
         }
     }
@@ -48,19 +51,24 @@ public class MWWebViewController: MWStepViewController {
     private func setupWebView() {
         self.view.addPinnedSubview(self.webView, verticalLayoutGuide: self.view.safeAreaLayoutGuide)
         
-        let items: [UIBarButtonItem]
-        let continueButton = UIBarButtonItem(title: self.webStep.translate(text: "Continue"), style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
+        if (!self.hideNavigation) {
+            self.configureToolbar()
+        }
+    }
+    
+    private func configureNavigationBar() {
+        let nextButtonToShow = self.hasNextStep() ? self.continueButton : nil
+        self.navigationItem.rightBarButtonItems = [self.cancelButtonItem, self.utilityButtonItem, nextButtonToShow].compactMap { $0 }
+    }
+    
+    private func configureToolbar() {
         let backwards = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(self.navigateBack(_:)))
         let forwards = UIBarButtonItem(image: UIImage(systemName: "chevron.forward"), style: .plain, target: self, action: #selector(self.navigateForward(_:)))
         let reload = UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(self.reloadCurrentPageOrOriginal(_:)))
-
         
-        switch (self.webStep.hideNavigation, self.hasNextStep()) {
-        case (true, true):
-            items = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), continueButton]
-        case (true, false):
-            items = []
-        case (false, true):
+        let items: [UIBarButtonItem]
+        
+        if (self.hasNextStep()) {
             items = [
                 backwards,
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -68,9 +76,9 @@ public class MWWebViewController: MWStepViewController {
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
                 reload,
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-                continueButton
+                self.continueButton
             ]
-        case (false, false):
+        } else {
             items = [
                 backwards,
                 UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
@@ -80,7 +88,7 @@ public class MWWebViewController: MWStepViewController {
             ]
         }
         
-        self.setToolbarItems(items, animated: false)
+        self.setToolbarItems(items, animated: true)
     }
     
     private func resolveUrlAndLoad() {
