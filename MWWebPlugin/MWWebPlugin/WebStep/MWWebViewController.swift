@@ -20,6 +20,9 @@ public class MWWebViewController: MWStepViewController {
         }
         return webStep
     }
+    private var showToolbar: Bool {
+        self.hasNextStep() || !self.webStep.hideNavigation
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -29,26 +32,55 @@ public class MWWebViewController: MWStepViewController {
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.navigationController?.setToolbarHidden(false, animated: animated)
+        if (self.showToolbar) {
+            self.navigationController?.setToolbarHidden(false, animated: animated)
+        }
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        self.navigationController?.setToolbarHidden(true, animated: animated)
+        if (self.showToolbar) {
+            self.navigationController?.setToolbarHidden(true, animated: animated)
+        }
     }
     
     //MARK: Private methods
     private func setupWebView() {
         self.view.addPinnedSubview(self.webView, verticalLayoutGuide: self.view.safeAreaLayoutGuide)
-        self.setToolbarItems([
-            UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(self.navigateBack(_:))),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(image: UIImage(systemName: "chevron.forward"), style: .plain, target: self, action: #selector(self.navigateForward(_:))),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(self.reloadCurrentPageOrOriginal(_:))),
-            UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-            UIBarButtonItem(title: "Continue", style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
-        ], animated: false)
+        
+        let items: [UIBarButtonItem]
+        let continueButton = UIBarButtonItem(title: self.webStep.translate(text: "Continue"), style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
+        let backwards = UIBarButtonItem(image: UIImage(systemName: "chevron.backward"), style: .plain, target: self, action: #selector(self.navigateBack(_:)))
+        let forwards = UIBarButtonItem(image: UIImage(systemName: "chevron.forward"), style: .plain, target: self, action: #selector(self.navigateForward(_:)))
+        let reload = UIBarButtonItem(image: UIImage(systemName: "arrow.clockwise"), style: .plain, target: self, action: #selector(self.reloadCurrentPageOrOriginal(_:)))
+
+        
+        switch (self.webStep.hideNavigation, self.hasNextStep()) {
+        case (true, true):
+            items = [UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil), continueButton]
+        case (true, false):
+            items = []
+        case (false, true):
+            items = [
+                backwards,
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                forwards,
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                reload,
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                continueButton
+            ]
+        case (false, false):
+            items = [
+                backwards,
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                forwards,
+                UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
+                reload
+            ]
+        }
+        
+        self.setToolbarItems(items, animated: false)
     }
     
     private func resolveUrlAndLoad() {

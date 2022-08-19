@@ -11,15 +11,19 @@ import MobileWorkflowCore
 public class MWWebStep: MWStep {
     
     let url: String
+    let hideNavigation: Bool
     let session: Session
+    let services: StepServices
     
     var resolvedUrl: URL? {
         self.session.resolve(url: url)
     }
     
-    init(identifier: String, url: String, session: Session) {
+    init(identifier: String, url: String, hideNavigation: Bool, session: Session, services: StepServices) {
         self.url = url
         self.session = session
+        self.services = services
+        self.hideNavigation = hideNavigation
         super.init(identifier: identifier)
     }
     
@@ -29,6 +33,10 @@ public class MWWebStep: MWStep {
     
     public override func instantiateViewController() -> StepViewController {
         MWWebViewController(step: self)
+    }
+    
+    public func translate(text: String) -> String {
+        return self.services.localizationService.translate(text) ?? text
     }
 }
 
@@ -42,7 +50,8 @@ extension MWWebStep: BuildableStep {
         guard let url = stepInfo.data.content["url"] as? String else {
             throw ParseError.invalidStepData(cause: "Mandatory 'url' property not found")
         }
-        return MWWebStep(identifier: stepInfo.data.identifier, url: url, session: stepInfo.session)
+        let hideNavigation = stepInfo.data.content["hideNavigation"] as? Bool ?? false
+        return MWWebStep(identifier: stepInfo.data.identifier, url: url, hideNavigation: hideNavigation, session: stepInfo.session, services: services)
     }
 }
 
