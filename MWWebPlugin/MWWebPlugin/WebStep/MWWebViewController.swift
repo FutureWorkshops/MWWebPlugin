@@ -24,9 +24,6 @@ public class MWWebViewController: MWStepViewController {
     private var hideNavigation: Bool {
         return self.webStep.hideNavigation
     }
-    private var showToolbar: Bool {
-        self.hasNextStep() || !self.webStep.hideNavigation
-    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
