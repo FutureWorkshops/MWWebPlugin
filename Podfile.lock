@@ -1,7 +1,7 @@
 PODS:
-  - MobileWorkflow (2.0.15):
-    - MobileWorkflow/Core (= 2.0.15)
-  - MobileWorkflow/Core (2.0.15)
+  - MobileWorkflow (2.1.1):
+    - MobileWorkflow/Core (= 2.1.1)
+  - MobileWorkflow/Core (2.1.1)
 
 DEPENDENCIES:
   - MobileWorkflow
@@ -11,8 +11,8 @@ SPEC REPOS:
     - MobileWorkflow
 
 SPEC CHECKSUMS:
-  MobileWorkflow: 91cfe2c7f0e26e7f60696104096330641faf6a37
+  MobileWorkflow: 6d847cb8e553969e3147d96abb2c308fc9c7d717
 
-PODFILE CHECKSUM: 40a229c52d1213c42df626393d24c1df8e81f3f9
+PODFILE CHECKSUM: 4f042a910848256cc66c5653a9eaf0b14ab7577a
 
 COCOAPODS: 1.11.3
