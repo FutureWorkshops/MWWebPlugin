@@ -54,6 +54,7 @@ public class MWWebViewController: MWStepViewController {
         if (!self.hideNavigation) {
             self.configureToolbar()
         }
+        self.webView.uiDelegate = self
     }
     
     private func configureNavigationBar() {
@@ -127,5 +128,16 @@ public class MWWebViewController: MWStepViewController {
     
     @IBAction private func continueToNextStep(_ sender: UIBarButtonItem) {
         self.goForward()
+    }
+}
+
+extension MWWebViewController: WKUIDelegate {
+    public func webView(_ webView: WKWebView, decideMediaCapturePermissionsFor origin: WKSecurityOrigin, initiatedBy frame: WKFrameInfo, type: WKMediaCaptureType) async -> WKPermissionDecision {
+        return .prompt
+    }
+    
+    // WebKit doesn't provide async counterpart for this delegate
+    public func webView(_ webView: WKWebView, requestDeviceOrientationAndMotionPermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
+        decisionHandler(.prompt)
     }
 }
