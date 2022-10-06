@@ -17,12 +17,14 @@ public class MWWebViewController: MWStepViewController {
     
     private lazy var webView = {
         let webView = WKWebView()
+        webView.translatesAutoresizingMaskIntoConstraints = false
         webView.navigationDelegate = self
         webView.uiDelegate = self
         return webView
     }()
     private lazy var loadingIndicator: UIActivityIndicatorView = {
         let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         loadingIndicator.hidesWhenStopped = true
         return loadingIndicator
     }()
@@ -38,8 +40,8 @@ public class MWWebViewController: MWStepViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        self.setupLoadingIndicator()
         self.setupWebView()
+        self.setupLoadingIndicator()
         self.resolveUrlAndLoad()
     }
     
@@ -153,15 +155,11 @@ public class MWWebViewController: MWStepViewController {
 extension MWWebViewController {
     @MainActor
     private func showLoading() {
-        if (self.loadingIndicator.isAnimating) { return }
-        self.webView.isHidden = true
         self.loadingIndicator.startAnimating()
     }
     
     @MainActor
     private func hideLoading() {
-        if (!self.loadingIndicator.isAnimating) { return }
-        self.webView.isHidden = false
         self.loadingIndicator.stopAnimating()
     }
 }
