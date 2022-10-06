@@ -8,6 +8,7 @@
 import WebKit
 import Foundation
 import MobileWorkflowCore
+import UIKit
 
 public class MWWebViewController: MWStepViewController {
     
@@ -19,6 +20,11 @@ public class MWWebViewController: MWStepViewController {
         webView.navigationDelegate = self
         webView.uiDelegate = self
         return webView
+    }()
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.hidesWhenStopped = true
+        return loadingIndicator
     }()
     private var webStep: MWWebStep {
         guard let webStep = self.mwStep as? MWWebStep else {
@@ -32,6 +38,7 @@ public class MWWebViewController: MWStepViewController {
     
     public override func viewDidLoad() {
         super.viewDidLoad()
+        self.setupLoadingIndicator()
         self.setupWebView()
         self.resolveUrlAndLoad()
     }
@@ -53,6 +60,13 @@ public class MWWebViewController: MWStepViewController {
     }
     
     //MARK: Private methods
+    private func setupLoadingIndicator() {
+        self.view.addSubview(self.loadingIndicator)
+        NSLayoutConstraint.activate([
+            self.loadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            self.loadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+    }
     private func setupWebView() {
         self.view.addPinnedSubview(self.webView, verticalLayoutGuide: self.view.safeAreaLayoutGuide)
         
@@ -139,12 +153,16 @@ public class MWWebViewController: MWStepViewController {
 extension MWWebViewController {
     @MainActor
     private func showLoading() {
-        
+        if (self.loadingIndicator.isAnimating) { return }
+        self.webView.isHidden = true
+        self.loadingIndicator.startAnimating()
     }
     
     @MainActor
     private func hideLoading() {
-        
+        if (!self.loadingIndicator.isAnimating) { return }
+        self.webView.isHidden = false
+        self.loadingIndicator.stopAnimating()
     }
 }
 
