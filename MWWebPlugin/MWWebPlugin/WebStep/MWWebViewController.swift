@@ -155,11 +155,15 @@ public class MWWebViewController: MWStepViewController {
 extension MWWebViewController {
     @MainActor
     private func showLoading() {
+        if (self.loadingIndicator.isAnimating) { return }
+        self.webView.isHidden = true
         self.loadingIndicator.startAnimating()
     }
     
     @MainActor
     private func hideLoading() {
+        if (!self.loadingIndicator.isAnimating) { return }
+        self.webView.isHidden = false
         self.loadingIndicator.stopAnimating()
     }
 }
