@@ -8,13 +8,26 @@
 import WebKit
 import Foundation
 import MobileWorkflowCore
+import UIKit
 
 public class MWWebViewController: MWStepViewController {
     
     public override var titleMode: StepViewControllerTitleMode { .smallTitle }
     lazy var continueButton = UIBarButtonItem(title: self.webStep.translate(text: "Next"), style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
     
-    private let webView = WKWebView()
+    private lazy var webView = {
+        let webView = WKWebView()
+        webView.translatesAutoresizingMaskIntoConstraints = false
+        webView.navigationDelegate = self
+        webView.uiDelegate = self
+        return webView
+    }()
+    private lazy var loadingIndicator: UIActivityIndicatorView = {
+        let loadingIndicator = UIActivityIndicatorView(style: .large)
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
+        loadingIndicator.hidesWhenStopped = true
+        return loadingIndicator
+    }()
     private var webStep: MWWebStep {
         guard let webStep = self.mwStep as? MWWebStep else {
             preconditionFailure("Unexpected step type. Expecting \(String(describing: MWWebStep.self)), got \(String(describing: type(of: self.mwStep)))")
@@ -28,6 +41,7 @@ public class MWWebViewController: MWStepViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupWebView()
+        self.setupLoadingIndicator()
         self.resolveUrlAndLoad()
     }
     
@@ -48,13 +62,19 @@ public class MWWebViewController: MWStepViewController {
     }
     
     //MARK: Private methods
+    private func setupLoadingIndicator() {
+        self.view.addSubview(self.loadingIndicator)
+        NSLayoutConstraint.activate([
+            self.loadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor),
+            self.loadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor)
+        ])
+    }
     private func setupWebView() {
         self.view.addPinnedSubview(self.webView, verticalLayoutGuide: self.view.safeAreaLayoutGuide)
         
         if (!self.hideNavigation) {
             self.configureToolbar()
         }
-        self.webView.uiDelegate = self
     }
     
     private func configureNavigationBar() {
@@ -101,6 +121,7 @@ public class MWWebViewController: MWStepViewController {
     }
     
     private func load(url: URL) {
+        self.showLoading()
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60)
         self.webView.load(request)
     }
@@ -131,6 +152,22 @@ public class MWWebViewController: MWStepViewController {
     }
 }
 
+extension MWWebViewController {
+    @MainActor
+    private func showLoading() {
+        if (self.loadingIndicator.isAnimating) { return }
+        self.webView.isHidden = true
+        self.loadingIndicator.startAnimating()
+    }
+    
+    @MainActor
+    private func hideLoading() {
+        if (!self.loadingIndicator.isAnimating) { return }
+        self.webView.isHidden = false
+        self.loadingIndicator.stopAnimating()
+    }
+}
+
 extension MWWebViewController: WKUIDelegate {
     public func webView(_ webView: WKWebView, decideMediaCapturePermissionsFor origin: WKSecurityOrigin, initiatedBy frame: WKFrameInfo, type: WKMediaCaptureType) async -> WKPermissionDecision {
         return .prompt
@@ -139,5 +176,18 @@ extension MWWebViewController: WKUIDelegate {
     // WebKit doesn't provide async counterpart for this delegate
     public func webView(_ webView: WKWebView, requestDeviceOrientationAndMotionPermissionFor origin: WKSecurityOrigin, initiatedByFrame frame: WKFrameInfo, decisionHandler: @escaping (WKPermissionDecision) -> Void) {
         decisionHandler(.prompt)
+    }
+}
+
+extension MWWebViewController: WKNavigationDelegate {
+    public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
+        Task { await self.hideLoading() }
+    }
+    
+    public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
+        Task {
+            await self.hideLoading()
+            await self.show(error)
+        }
     }
 }
