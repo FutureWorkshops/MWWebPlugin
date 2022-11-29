@@ -12,6 +12,7 @@ public class MWWebStep: MWStep {
     
     let url: String
     let hideNavigation: Bool
+    let hideNavigationBar: Bool
     let session: Session
     let services: StepServices
     
@@ -19,11 +20,12 @@ public class MWWebStep: MWStep {
         self.session.resolve(url: url)
     }
     
-    init(identifier: String, url: String, hideNavigation: Bool, session: Session, services: StepServices) {
+    init(identifier: String, url: String, hideNavigation: Bool, hideNavigationBar: Bool, session: Session, services: StepServices) {
         self.url = url
         self.session = session
         self.services = services
         self.hideNavigation = hideNavigation
+        self.hideNavigationBar = hideNavigationBar
         super.init(identifier: identifier)
     }
     
@@ -51,7 +53,8 @@ extension MWWebStep: BuildableStep {
             throw ParseError.invalidStepData(cause: "Mandatory 'url' property not found")
         }
         let hideNavigation = stepInfo.data.content["hideNavigation"] as? Bool ?? false
-        return MWWebStep(identifier: stepInfo.data.identifier, url: url, hideNavigation: hideNavigation, session: stepInfo.session, services: services)
+        let hideNavigationBar = stepInfo.data.content["hideTopNavigationBar"] as? Bool ?? false
+        return MWWebStep(identifier: stepInfo.data.identifier, url: url, hideNavigation: hideNavigation, hideNavigationBar: hideNavigationBar, session: stepInfo.session, services: services)
     }
 }
 

@@ -37,6 +37,9 @@ public class MWWebViewController: MWStepViewController {
     private var hideNavigation: Bool {
         return self.webStep.hideNavigation
     }
+    private var hideNavigationBar: Bool {
+        return self.webStep.hideNavigationBar
+    }
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,12 +55,18 @@ public class MWWebViewController: MWStepViewController {
         } else {
             self.configureNavigationBar()
         }
+        if (self.hideNavigationBar) {
+            self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        }
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         if (!self.hideNavigation) {
             self.navigationController?.setToolbarHidden(true, animated: animated)
+        }
+        if (self.hideNavigationBar) {
+            self.navigationController?.setNavigationBarHidden(false, animated: animated)
         }
     }
     
