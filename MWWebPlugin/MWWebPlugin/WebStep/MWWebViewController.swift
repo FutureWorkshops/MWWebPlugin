@@ -41,11 +41,6 @@ public class MWWebViewController: MWStepViewController {
         return self.webStep.hideNavigationBar
     }
     
-    public override var restorNavigationBarOnAppear: Bool {
-        get { !self.webStep.hideNavigationBar }
-        set {}
-    }
-    
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupWebView()
@@ -88,6 +83,12 @@ public class MWWebViewController: MWStepViewController {
         
         if (!self.hideNavigation) {
             self.configureToolbar()
+        }
+    }
+    
+    public override func configureNavigationBar(_ navigationBar: UINavigationBar) {
+        if (!self.hideNavigationBar) {
+            super.configureNavigationBar(navigationBar)
         }
     }
     
