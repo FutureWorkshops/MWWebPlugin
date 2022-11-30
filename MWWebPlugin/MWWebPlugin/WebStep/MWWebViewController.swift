@@ -53,7 +53,7 @@ public class MWWebViewController: MWStepViewController {
         if (!self.hideNavigation) {
             self.navigationController?.setToolbarHidden(false, animated: animated)
         } else {
-            self.configureNavigationBar()
+            self.configureNavigationBarActions()
         }
         if (self.hideNavigationBar) {
             self.navigationController?.setNavigationBarHidden(true, animated: animated)
@@ -86,7 +86,13 @@ public class MWWebViewController: MWStepViewController {
         }
     }
     
-    private func configureNavigationBar() {
+    public override func configureNavigationBar(_ navigationBar: UINavigationBar) {
+        if (!self.hideNavigationBar) {
+            super.configureNavigationBar(navigationBar)
+        }
+    }
+    
+    private func configureNavigationBarActions() {
         let nextButtonToShow = self.hasNextStep() ? self.continueButton : nil
         self.navigationItem.rightBarButtonItems = [self.cancelButtonItem, self.utilityButtonItem, nextButtonToShow].compactMap { $0 }
     }
