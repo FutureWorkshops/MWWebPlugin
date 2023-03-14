@@ -93,3 +93,49 @@ public enum WebViewError: LocalizedError {
         }
     }
 }
+
+public class WebViewWebViewMetadata: StepMetadata {
+    enum CodingKeys: CodingKey {
+        case url
+        case hideNavigation
+        case hideTopNavigationBar
+        case sharingEnabled
+    }
+    
+    let url: String
+    let hideNavigation: Bool?
+    let hideTopNavigationBar: Bool?
+    let sharingEnabled: Bool?
+    
+    init(id: String, title: String, url: String, hideNavigation: Bool?, hideTopNavigationBar: Bool?, sharingEnabled: Bool?, next: PushLinkMetadata?, links: [LinkMetadata]) {
+        self.url = url
+        self.hideNavigation = hideNavigation
+        self.hideTopNavigationBar = hideTopNavigationBar
+        self.sharingEnabled = sharingEnabled
+        super.init(id: id, type: "io.mobileworkflow.WebView", title: title, next: next, links: links)
+    }
+    
+    public required init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        self.url = try container.decode(String.self, forKey: .url)
+        self.hideNavigation = try container.decodeIfPresent(Bool.self, forKey: .hideNavigation)
+        self.hideTopNavigationBar = try container.decodeIfPresent(Bool.self, forKey: .hideTopNavigationBar)
+        self.sharingEnabled = try container.decodeIfPresent(Bool.self, forKey: .sharingEnabled)
+        try super.init(from: decoder)
+    }
+    
+    public override func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(self.url, forKey: .url)
+        try container.encodeIfPresent(self.hideNavigation, forKey: .hideNavigation)
+        try container.encodeIfPresent(self.hideTopNavigationBar, forKey: .hideTopNavigationBar)
+        try container.encodeIfPresent(self.sharingEnabled, forKey: .sharingEnabled)
+        try super.encode(to: encoder)
+    }
+}
+
+public extension StepMetadata {
+    static func webViewWebView(id: String, title: String, url: String, hideNavigation: Bool?, hideTopNavigationBar: Bool?, sharingEnabled: Bool?, next: PushLinkMetadata?, links: [LinkMetadata]) -> WebViewWebViewMetadata {
+        WebViewWebViewMetadata(id: id, title: title, url: url, hideNavigation: hideNavigation, hideTopNavigationBar: hideTopNavigationBar, sharingEnabled: sharingEnabled, next: next, links: links)
+    }
+}

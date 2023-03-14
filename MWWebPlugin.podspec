@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
     s.name                  = 'MWWebPlugin'
-    s.version               = '0.3.0'
+    s.version               = '0.3.1'
     s.summary               = 'WebView plugin for MobileWorkflow on iOS.'
     s.description           = <<-DESC
     WebView plugin for MobileWorkflow on iOS, containg WebView related steps:
@@ -16,7 +16,7 @@ Pod::Spec.new do |s|
 	s.default_subspecs      = 'Core'
 	
     s.subspec 'Core' do |cs|
-        cs.dependency            'MobileWorkflow', '~> 2.1.0'
+        cs.dependency            'MobileWorkflow', '~> 2.1.12'
         cs.source_files          = 'MWWebPlugin/MWWebPlugin/**/*.swift'
     end
 end
