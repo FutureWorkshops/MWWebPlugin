@@ -135,7 +135,7 @@ public class WebViewWebViewMetadata: StepMetadata {
 }
 
 public extension StepMetadata {
-    static func webViewWebView(id: String, title: String, url: String, hideNavigation: Bool?, hideTopNavigationBar: Bool?, sharingEnabled: Bool?, next: PushLinkMetadata?, links: [LinkMetadata]) -> WebViewWebViewMetadata {
+    static func webViewWebView(id: String, title: String, url: String, hideNavigation: Bool? = nil, hideTopNavigationBar: Bool? = nil, sharingEnabled: Bool? = nil, next: PushLinkMetadata? = nil, links: [LinkMetadata] = []) -> WebViewWebViewMetadata {
         WebViewWebViewMetadata(id: id, title: title, url: url, hideNavigation: hideNavigation, hideTopNavigationBar: hideTopNavigationBar, sharingEnabled: sharingEnabled, next: next, links: links)
     }
 }
