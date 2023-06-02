@@ -56,6 +56,15 @@ public class MWWebStep: MWStep, WebStepConfiguration {
         //Configuration is already loaded. So, nothing is done
         return false
     }
+    
+    public func perform(action: WebViewWebViewItem) async throws -> Bool {
+        guard let method = HTTPMethod(rawValue: action.method) else { return false }
+        guard let url = self.session.resolve(url: action.url) else { return false }
+        
+        let task: URLAsyncTask<Void> = URLAsyncTask<Void>.build(url: url, method: method, session: self.session, parser: { _ in () })
+        try await self.services.perform(task: task, session: self.session)
+        return false
+    }
 }
 
 extension MWWebStep: BuildableStep {

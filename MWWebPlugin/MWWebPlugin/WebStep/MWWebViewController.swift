@@ -128,7 +128,19 @@ public class MWWebViewController: MWStepViewController {
     }
     
     @objc private func performRemoteAction(sender: UIBarButtonItem) {
-        //TODO: Actually perform the action
+        guard let actions = self.webStep.actions, sender.tag < actions.count, sender.tag >= 0 else { return }
+        let action = actions[sender.tag]
+        Task {
+            do {
+                let reloadWebView = try await self.webStep.perform(action: action)
+                self.configureUIElements(animated: false)
+                if reloadWebView {
+                    self.load(showLoading: true)
+                }
+            } catch {
+                await self.show(error)
+            }
+        }
     }
     
     private func configureToolbar() {

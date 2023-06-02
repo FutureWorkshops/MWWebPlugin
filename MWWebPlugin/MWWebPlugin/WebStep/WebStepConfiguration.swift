@@ -16,4 +16,5 @@ public protocol WebStepConfiguration {
     
     func translate(text: String) -> String
     func preloadConfiguration() async throws -> Bool
+    func perform(action: WebViewWebViewItem) async throws -> Bool
 }

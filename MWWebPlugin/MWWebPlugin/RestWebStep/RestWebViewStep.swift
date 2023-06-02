@@ -129,4 +129,19 @@ extension RestWebViewStep: WebStepConfiguration {
     public func translate(text: String) -> String {
         services.localizationService.translate(text) ?? text
     }
+    
+    public func perform(action: WebViewWebViewItem) async throws -> Bool {
+        guard let method = HTTPMethod(rawValue: action.method) else { return false }
+        guard let url = self.session.resolve(url: action.url) else { return false }
+        
+        let task: URLAsyncTask<Void> = URLAsyncTask<Void>.build(url: url, method: method, session: self.session, parser: { _ in () })
+        try await self.services.perform(task: task, session: self.session)
+        
+        let previousURL = self.configuration?.url
+        if try await self.preloadConfiguration() {
+            return self.configuration?.url != previousURL
+        } else {
+            return false
+        }
+    }
 }
