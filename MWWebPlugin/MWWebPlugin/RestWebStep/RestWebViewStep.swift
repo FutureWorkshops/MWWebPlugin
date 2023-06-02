@@ -68,7 +68,21 @@ public class RestWebViewStep: ObservableStep, BuildableStepWithMetadata {
 
 extension RestWebViewStep: WebStepConfiguration {
     public func preloadConfiguration() async throws -> Bool {
-        //TODO: Reload configuration
+        let data: Data = try await self.get(path: self.properties.url)
+        guard var baseContent = (try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)) as? [String: Any] else {
+            return false
+        }
+        //To avoid re-creating a model and re-use the static structure
+        //we are copying id/title of the object into the server response
+        if let title = self.title {
+            baseContent["title"] = title
+        }
+        baseContent["id"] = self.identifier
+        baseContent["type"] = self.properties.type
+        
+        let builtData = try JSONSerialization.data(withJSONObject: baseContent, options: .fragmentsAllowed)
+        self.configuration = try JSONDecoder().decode(WebViewWebViewMetadata.self, from: builtData)
+
         return true
     }
     
