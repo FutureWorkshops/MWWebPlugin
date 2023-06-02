@@ -8,23 +8,23 @@
 import Foundation
 import MobileWorkflowCore
 
-public class MWWebStep: MWStep {
+public class MWWebStep: MWStep, WebStepConfiguration {
     
     let url: String
-    let actions: [WebViewWebViewItem]
-    let hideNavigation: Bool
-    let hideNavigationBar: Bool
-    let sharingEnabled: Bool
+    public let actions: [WebViewWebViewItem]?
+    public let hideNavigation: Bool
+    public let hideNavigationBar: Bool
+    public let sharingEnabled: Bool
     let session: Session
     let services: StepServices
     
-    var resolvedUrl: URL? {
+    public var resolvedUrl: URL? {
         self.session.resolve(url: url)
     }
     
     init(identifier: String,
          url: String,
-         actions: [WebViewWebViewItem],
+         actions: [WebViewWebViewItem]?,
          hideNavigation: Bool,
          hideNavigationBar: Bool,
          sharingEnabled: Bool,
@@ -67,11 +67,11 @@ extension MWWebStep: BuildableStep {
         let hideNavigationBar = stepInfo.data.content["hideTopNavigationBar"] as? Bool ?? false
         let sharingEnabled = stepInfo.data.content["sharingEnabled"] as? Bool ?? false
         
-        let actions: [WebViewWebViewItem]
+        let actions: [WebViewWebViewItem]?
         if let storedActions = stepInfo.data.content["actions"] as? [[String: Any]] {
             actions = try storedActions.map({ try WebViewWebViewItem.parse($0) })
         } else {
-            actions = []
+            actions = nil
         }
         
         return MWWebStep(identifier: stepInfo.data.identifier,

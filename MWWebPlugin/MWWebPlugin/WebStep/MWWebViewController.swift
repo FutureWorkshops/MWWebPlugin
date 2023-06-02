@@ -28,9 +28,9 @@ public class MWWebViewController: MWStepViewController {
         loadingIndicator.hidesWhenStopped = true
         return loadingIndicator
     }()
-    private var webStep: MWWebStep {
-        guard let webStep = self.mwStep as? MWWebStep else {
-            preconditionFailure("Unexpected step type. Expecting \(String(describing: MWWebStep.self)), got \(String(describing: type(of: self.mwStep)))")
+    private var webStep: WebStepConfiguration {
+        guard let webStep = self.mwStep as? WebStepConfiguration else {
+            preconditionFailure("Unexpected step type. Expecting \(String(describing: WebStepConfiguration.self)), got \(String(describing: type(of: self.mwStep)))")
         }
         return webStep
     }
@@ -110,7 +110,7 @@ public class MWWebViewController: MWStepViewController {
             let nextButtonToShow = self.hasNextStep() ? self.continueButton : nil
             items += [self.cancelButtonItem, self.utilityButtonItem, nextButtonToShow]
         }
-        items += self.webStep.actions.mapIndexed(build(tag:action:))
+        items += self.webStep.actions?.mapIndexed(build(tag:action:)) ?? []
         self.navigationItem.rightBarButtonItems = items.compactMap { $0 }
     }
     
