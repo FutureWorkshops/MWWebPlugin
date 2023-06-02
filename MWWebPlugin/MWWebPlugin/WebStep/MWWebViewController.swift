@@ -65,9 +65,8 @@ public class MWWebViewController: MWStepViewController {
         super.viewWillAppear(animated)
         if (!self.hideNavigation) {
             self.navigationController?.setToolbarHidden(false, animated: animated)
-        } else {
-            self.configureNavigationBarActions()
         }
+        self.configureNavigationBarActions()
         if (self.hideNavigationBar) {
             self.navigationController?.setNavigationBarHidden(true, animated: animated)
         }
@@ -106,8 +105,24 @@ public class MWWebViewController: MWStepViewController {
     }
     
     private func configureNavigationBarActions() {
-        let nextButtonToShow = self.hasNextStep() ? self.continueButton : nil
-        self.navigationItem.rightBarButtonItems = [self.cancelButtonItem, self.utilityButtonItem, nextButtonToShow].compactMap { $0 }
+        var items = [UIBarButtonItem?]()
+        if (self.hideNavigationBar) {
+            let nextButtonToShow = self.hasNextStep() ? self.continueButton : nil
+            items += [self.cancelButtonItem, self.utilityButtonItem, nextButtonToShow]
+        }
+        items += self.webStep.actions.mapIndexed(build(tag:action:))
+        self.navigationItem.rightBarButtonItems = items.compactMap { $0 }
+    }
+    
+    private func build(tag: Int, action: WebViewWebViewItem) -> UIBarButtonItem? {
+        guard let icon = UIImage(systemName: action.sfSymbolName) else { return nil }
+        let item = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(performRemoteAction(sender:)))
+        item.tag = tag //Tag is used to discover the item later on.
+        return item
+    }
+    
+    @objc private func performRemoteAction(sender: UIBarButtonItem) {
+        //TODO: Actually perform the action
     }
     
     private func configureToolbar() {
@@ -165,6 +180,16 @@ public class MWWebViewController: MWStepViewController {
     
     @IBAction private func continueToNextStep(_ sender: UIBarButtonItem) {
         self.goForward()
+    }
+}
+
+extension Collection {
+    func mapIndexed<T>(_ transform: (Int, Element) -> T) -> [T] {
+        var response = [T]()
+        for (index, element) in self.enumerated() {
+            response.append(transform(index, element))
+        }
+        return response
     }
 }
 
