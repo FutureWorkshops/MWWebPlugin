@@ -51,6 +51,11 @@ public class MWWebStep: MWStep, WebStepConfiguration {
     public func translate(text: String) -> String {
         return self.services.localizationService.translate(text) ?? text
     }
+    
+    public func preloadConfiguration() async throws -> Bool {
+        //Configuration is already loaded. So, nothing is done
+        return false
+    }
 }
 
 extension MWWebStep: BuildableStep {

@@ -67,6 +67,11 @@ public class RestWebViewStep: ObservableStep, BuildableStepWithMetadata {
 }
 
 extension RestWebViewStep: WebStepConfiguration {
+    public func preloadConfiguration() async throws -> Bool {
+        //TODO: Reload configuration
+        return true
+    }
+    
     public var hideNavigation: Bool {
         configuration?.hideNavigation ?? true
     }

@@ -13,5 +13,7 @@ public protocol WebStepConfiguration {
     var resolvedUrl: URL? { get }
     var sharingEnabled: Bool { get }
     var actions: [WebViewWebViewItem]? { get }
+    
     func translate(text: String) -> String
+    func preloadConfiguration() async throws -> Bool
 }
