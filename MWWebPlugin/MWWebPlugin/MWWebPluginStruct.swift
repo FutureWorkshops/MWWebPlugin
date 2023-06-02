@@ -17,6 +17,7 @@ public struct MWWebPluginStruct: Plugin {
 public enum MWWebStepType: String, StepType, CaseIterable {
     
     case web = "io.mobileworkflow.WebView"
+    case restWeb = "io.app-rail.webview.rest-web-view"
     
     public var typeName: String {
         return self.rawValue
@@ -25,6 +26,7 @@ public enum MWWebStepType: String, StepType, CaseIterable {
     public var stepClass: BuildableStep.Type {
         switch self {
         case .web: return MWWebStep.self
+        case .restWeb: return RestWebViewStep.self
         }
     }
 }

@@ -28,9 +28,9 @@ public class MWWebViewController: MWStepViewController {
         loadingIndicator.hidesWhenStopped = true
         return loadingIndicator
     }()
-    private var webStep: MWWebStep {
-        guard let webStep = self.mwStep as? MWWebStep else {
-            preconditionFailure("Unexpected step type. Expecting \(String(describing: MWWebStep.self)), got \(String(describing: type(of: self.mwStep)))")
+    private var webStep: WebStepConfiguration {
+        guard let webStep = self.mwStep as? WebStepConfiguration else {
+            preconditionFailure("Unexpected step type. Expecting \(String(describing: WebStepConfiguration.self)), got \(String(describing: type(of: self.mwStep)))")
         }
         return webStep
     }
@@ -40,37 +40,31 @@ public class MWWebViewController: MWStepViewController {
     private var hideNavigationBar: Bool {
         return self.webStep.hideNavigationBar
     }
+    private lazy var actionLoadingIndicator = {
+        let stateView = UIView()
+        stateView.layer.cornerRadius = 5.0
+        stateView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
+        stateView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let progress = UIActivityIndicatorView(style: .large)
+        progress.color = .white
+        progress.startAnimating()
+        stateView.addPinnedSubview(progress, insets: .init(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
+        
+        return stateView
+    }()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
         self.setupWebView()
         self.setupLoadingIndicator()
         
-        guard let url = self.webStep.resolvedUrl else {
-            // stop if url cannot be resolved
-            self.show(WebViewError.unableToResolveURL)
-            return
-        }
-        
-        if self.webStep.sharingEnabled && self.hideNavigation {
-            // show share button on navigation bar when sharing is enabled and toolbar is hidden
-            let iconImage = UIImage(systemName: "square.and.arrow.up")
-            self.utilityButtonItem = UIBarButtonItem(image: iconImage, style: .plain, target: self, action: #selector(self.shareAction))
-        }
-        
-        self.load(url: url)
+        Task { await self.loadConfiguration() }
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if (!self.hideNavigation) {
-            self.navigationController?.setToolbarHidden(false, animated: animated)
-        } else {
-            self.configureNavigationBarActions()
-        }
-        if (self.hideNavigationBar) {
-            self.navigationController?.setNavigationBarHidden(true, animated: animated)
-        }
+        self.configureUIElements(animated: animated)
     }
     
     public override func viewWillDisappear(_ animated: Bool) {
@@ -84,6 +78,30 @@ public class MWWebViewController: MWStepViewController {
     }
     
     //MARK: Private methods
+    @MainActor
+    private func configureUIElements(animated: Bool) {
+        if self.webStep.sharingEnabled && self.hideNavigation {
+            // show share button on navigation bar when sharing is enabled and toolbar is hidden
+            let iconImage = UIImage(systemName: "square.and.arrow.up")
+            self.utilityButtonItem = UIBarButtonItem(image: iconImage, style: .plain, target: self, action: #selector(self.shareAction))
+        }
+        if (self.hideNavigation) {
+            self.navigationController?.setToolbarHidden(true, animated: animated)
+        } else {
+            if let navigationBar = self.navigationController?.navigationBar {
+                self.configureNavigationBar(navigationBar)
+            }
+            self.navigationController?.setToolbarHidden(false, animated: animated)
+        }
+        self.configureNavigationBarActions()
+        if (self.hideNavigationBar) {
+            self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        } else {
+            self.configureToolbar()
+            self.navigationController?.setNavigationBarHidden(false, animated: animated)
+        }
+    }
+    
     private func setupLoadingIndicator() {
         self.view.addSubview(self.loadingIndicator)
         NSLayoutConstraint.activate([
@@ -106,8 +124,51 @@ public class MWWebViewController: MWStepViewController {
     }
     
     private func configureNavigationBarActions() {
-        let nextButtonToShow = self.hasNextStep() ? self.continueButton : nil
-        self.navigationItem.rightBarButtonItems = [self.cancelButtonItem, self.utilityButtonItem, nextButtonToShow].compactMap { $0 }
+        var items = [UIBarButtonItem?]()
+        if (self.hideNavigationBar) {
+            let nextButtonToShow = self.hasNextStep() ? self.continueButton : nil
+            items += [self.cancelButtonItem, self.utilityButtonItem, nextButtonToShow]
+        }
+        items += self.webStep.actions?.mapIndexed(build(tag:action:)) ?? []
+        self.navigationItem.rightBarButtonItems = items.compactMap { $0 }
+    }
+    
+    private func build(tag: Int, action: WebViewWebViewItem) -> UIBarButtonItem? {
+        guard let icon = UIImage(systemName: action.sfSymbolName) else { return nil }
+        let item = UIBarButtonItem(image: icon, style: .plain, target: self, action: #selector(performRemoteAction(sender:)))
+        item.tag = tag //Tag is used to discover the item later on.
+        return item
+    }
+    
+    @objc private func performRemoteAction(sender: UIBarButtonItem) {
+        guard let actions = self.webStep.actions, sender.tag < actions.count, sender.tag >= 0 else { return }
+        let action = actions[sender.tag]
+        Task {
+            do {
+                self.showActionLoading()
+                let reloadWebView = try await self.webStep.perform(action: action)
+                self.configureUIElements(animated: false)
+                self.hideActionLoading()
+                if reloadWebView {
+                    self.load(showLoading: true)
+                }
+            } catch {
+                self.hideActionLoading()
+                await self.show(error)
+            }
+        }
+    }
+    
+    private func showActionLoading() {
+        self.view.addSubview(self.actionLoadingIndicator)
+        NSLayoutConstraint.activate([
+            self.actionLoadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
+            self.actionLoadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
+        ])
+    }
+    
+    private func hideActionLoading() {
+        self.actionLoadingIndicator.removeFromSuperview()
     }
     
     private func configureToolbar() {
@@ -134,10 +195,31 @@ public class MWWebViewController: MWStepViewController {
         self.setToolbarItems(itemsWithSpaces, animated: true)
     }
     
-    private func load(url: URL) {
+    private func loadConfiguration() async {
         self.showLoading()
+        do {
+            if try await self.webStep.preloadConfiguration() {
+                self.configureUIElements(animated: false)
+            }
+            self.load(showLoading: false)
+        } catch {
+            self.showUnableToResolveURLError()
+        }
+    }
+    
+    private func load(showLoading: Bool = true) {
+        self.showLoading()
+        guard let url = self.webStep.resolvedUrl else {
+            return self.showUnableToResolveURLError()
+        }
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60)
         self.webView.load(request)
+    }
+    
+    @MainActor
+    private func showUnableToResolveURLError() {
+        self.hideLoading()
+        self.show(WebViewError.unableToResolveURL)
     }
     
     //MARK: IBActions
@@ -154,17 +236,21 @@ public class MWWebViewController: MWStepViewController {
     }
     
     @IBAction private func reloadCurrentPageOrOriginal(_ sender: UIBarButtonItem) {
-        if let currentUrl = self.webView.url {
-            self.load(url: currentUrl)
-        } else if let resolvedUrl = self.webStep.resolvedUrl {
-            self.load(url: resolvedUrl)
-        } else {
-            self.show(WebViewError.unableToResolveURL)
-        }
+        self.load()
     }
     
     @IBAction private func continueToNextStep(_ sender: UIBarButtonItem) {
         self.goForward()
+    }
+}
+
+extension Collection {
+    func mapIndexed<T>(_ transform: (Int, Element) -> T) -> [T] {
+        var response = [T]()
+        for (index, element) in self.enumerated() {
+            response.append(transform(index, element))
+        }
+        return response
     }
 }
 

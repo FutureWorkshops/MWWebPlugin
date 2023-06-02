@@ -8,27 +8,30 @@
 import Foundation
 import MobileWorkflowCore
 
-public class MWWebStep: MWStep {
+public class MWWebStep: MWStep, WebStepConfiguration {
     
     let url: String
-    let hideNavigation: Bool
-    let hideNavigationBar: Bool
-    let sharingEnabled: Bool
+    public let actions: [WebViewWebViewItem]?
+    public let hideNavigation: Bool
+    public let hideNavigationBar: Bool
+    public let sharingEnabled: Bool
     let session: Session
     let services: StepServices
     
-    var resolvedUrl: URL? {
+    public var resolvedUrl: URL? {
         self.session.resolve(url: url)
     }
     
     init(identifier: String,
          url: String,
+         actions: [WebViewWebViewItem]?,
          hideNavigation: Bool,
          hideNavigationBar: Bool,
          sharingEnabled: Bool,
          session: Session,
          services: StepServices) {
         self.url = url
+        self.actions = actions
         self.session = session
         self.services = services
         self.hideNavigation = hideNavigation
@@ -48,6 +51,20 @@ public class MWWebStep: MWStep {
     public func translate(text: String) -> String {
         return self.services.localizationService.translate(text) ?? text
     }
+    
+    public func preloadConfiguration() async throws -> Bool {
+        //Configuration is already loaded. So, nothing is done
+        return false
+    }
+    
+    public func perform(action: WebViewWebViewItem) async throws -> Bool {
+        guard let method = HTTPMethod(rawValue: action.method) else { return false }
+        guard let url = self.session.resolve(url: action.url) else { return false }
+        
+        let task: URLAsyncTask<Void> = URLAsyncTask<Void>.build(url: url, method: method, session: self.session, parser: { _ in () })
+        try await self.services.perform(task: task, session: self.session)
+        return false
+    }
 }
 
 extension MWWebStep: BuildableStep {
@@ -63,8 +80,17 @@ extension MWWebStep: BuildableStep {
         let hideNavigation = stepInfo.data.content["hideNavigation"] as? Bool ?? false
         let hideNavigationBar = stepInfo.data.content["hideTopNavigationBar"] as? Bool ?? false
         let sharingEnabled = stepInfo.data.content["sharingEnabled"] as? Bool ?? false
+        
+        let actions: [WebViewWebViewItem]?
+        if let storedActions = stepInfo.data.content["actions"] as? [[String: Any]] {
+            actions = try storedActions.map({ try WebViewWebViewItem.parse($0) })
+        } else {
+            actions = nil
+        }
+        
         return MWWebStep(identifier: stepInfo.data.identifier,
                          url: url,
+                         actions: actions,
                          hideNavigation: hideNavigation,
                          hideNavigationBar: hideNavigationBar,
                          sharingEnabled: sharingEnabled,
@@ -94,21 +120,52 @@ public enum WebViewError: LocalizedError {
     }
 }
 
+public struct WebViewWebViewItem: Codable {
+    enum CodingKeys: String, CodingKey {
+        case materialIconName
+        case method
+        case sfSymbolName
+        case url
+    }
+    
+    let materialIconName: String
+    let method: String
+    let sfSymbolName: String
+    let url: String
+
+    public static func webViewWebViewItem(materialIconName: String, method: String, sfSymbolName: String, url: String) -> WebViewWebViewItem {
+        WebViewWebViewItem(
+            materialIconName: materialIconName,
+            method: method,
+            sfSymbolName: sfSymbolName,
+            url: url
+        )
+    }
+    
+    internal static func parse(_ stored: [String: Any]) throws -> WebViewWebViewItem {
+        let data = try JSONSerialization.data(withJSONObject: stored, options: .fragmentsAllowed)
+        return try JSONDecoder().decode(WebViewWebViewItem.self, from: data)
+    }
+}
+
 public class WebViewWebViewMetadata: StepMetadata {
     enum CodingKeys: CodingKey {
         case url
+        case actions
         case hideNavigation
         case hideTopNavigationBar
         case sharingEnabled
     }
     
     let url: String
+    let actions: [WebViewWebViewItem]?
     let hideNavigation: Bool?
     let hideTopNavigationBar: Bool?
     let sharingEnabled: Bool?
     
-    init(id: String, title: String, url: String, hideNavigation: Bool?, hideTopNavigationBar: Bool?, sharingEnabled: Bool?, next: PushLinkMetadata?, links: [LinkMetadata]) {
+    init(id: String, title: String, url: String, actions: [WebViewWebViewItem]?, hideNavigation: Bool?, hideTopNavigationBar: Bool?, sharingEnabled: Bool?, next: PushLinkMetadata?, links: [LinkMetadata]) {
         self.url = url
+        self.actions = actions
         self.hideNavigation = hideNavigation
         self.hideTopNavigationBar = hideTopNavigationBar
         self.sharingEnabled = sharingEnabled
@@ -118,6 +175,7 @@ public class WebViewWebViewMetadata: StepMetadata {
     public required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         self.url = try container.decode(String.self, forKey: .url)
+        self.actions = try container.decode([WebViewWebViewItem].self, forKey: .actions)
         self.hideNavigation = try container.decodeIfPresent(Bool.self, forKey: .hideNavigation)
         self.hideTopNavigationBar = try container.decodeIfPresent(Bool.self, forKey: .hideTopNavigationBar)
         self.sharingEnabled = try container.decodeIfPresent(Bool.self, forKey: .sharingEnabled)
@@ -127,6 +185,7 @@ public class WebViewWebViewMetadata: StepMetadata {
     public override func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(self.url, forKey: .url)
+        try container.encodeIfPresent(self.actions, forKey: .actions)
         try container.encodeIfPresent(self.hideNavigation, forKey: .hideNavigation)
         try container.encodeIfPresent(self.hideTopNavigationBar, forKey: .hideTopNavigationBar)
         try container.encodeIfPresent(self.sharingEnabled, forKey: .sharingEnabled)
@@ -135,7 +194,7 @@ public class WebViewWebViewMetadata: StepMetadata {
 }
 
 public extension StepMetadata {
-    static func webViewWebView(id: String, title: String, url: String, hideNavigation: Bool? = nil, hideTopNavigationBar: Bool? = nil, sharingEnabled: Bool? = nil, next: PushLinkMetadata? = nil, links: [LinkMetadata] = []) -> WebViewWebViewMetadata {
-        WebViewWebViewMetadata(id: id, title: title, url: url, hideNavigation: hideNavigation, hideTopNavigationBar: hideTopNavigationBar, sharingEnabled: sharingEnabled, next: next, links: links)
+    static func webViewWebView(id: String, title: String, url: String, actions: [WebViewWebViewItem]? = nil, hideNavigation: Bool? = nil, hideTopNavigationBar: Bool? = nil, sharingEnabled: Bool? = nil, next: PushLinkMetadata? = nil, links: [LinkMetadata] = []) -> WebViewWebViewMetadata {
+        WebViewWebViewMetadata(id: id, title: title, url: url, actions: actions, hideNavigation: hideNavigation, hideTopNavigationBar: hideTopNavigationBar, sharingEnabled: sharingEnabled, next: next, links: links)
     }
 }
