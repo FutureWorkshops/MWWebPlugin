@@ -65,18 +65,27 @@ public class MWWebViewController: MWStepViewController {
     }
     
     //MARK: Private methods
+    @MainActor
     private func configureUIElements(animated: Bool) {
         if self.webStep.sharingEnabled && self.hideNavigation {
             // show share button on navigation bar when sharing is enabled and toolbar is hidden
             let iconImage = UIImage(systemName: "square.and.arrow.up")
             self.utilityButtonItem = UIBarButtonItem(image: iconImage, style: .plain, target: self, action: #selector(self.shareAction))
         }
-        if (!self.hideNavigation) {
+        if (self.hideNavigation) {
+            self.navigationController?.setToolbarHidden(true, animated: animated)
+        } else {
+            if let navigationBar = self.navigationController?.navigationBar {
+                self.configureNavigationBar(navigationBar)
+            }
             self.navigationController?.setToolbarHidden(false, animated: animated)
         }
         self.configureNavigationBarActions()
         if (self.hideNavigationBar) {
             self.navigationController?.setNavigationBarHidden(true, animated: animated)
+        } else {
+            self.configureToolbar()
+            self.navigationController?.setNavigationBarHidden(false, animated: animated)
         }
     }
     

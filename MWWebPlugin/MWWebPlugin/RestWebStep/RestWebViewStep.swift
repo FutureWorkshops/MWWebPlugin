@@ -68,7 +68,14 @@ public class RestWebViewStep: ObservableStep, BuildableStepWithMetadata {
 
 extension RestWebViewStep: WebStepConfiguration {
     public func preloadConfiguration() async throws -> Bool {
-        let data: Data = try await self.get(path: self.properties.url)
+        
+        guard let fullURL = session.resolve(url: properties.url) else {
+            return false
+        }
+        
+        let task: URLAsyncTask<Data> = URLAsyncTask<Data>.build(url: fullURL, method: HTTPMethod.GET, session: session, parser: { $0 })
+        let data = try await services.perform(task: task, session: session)
+        
         guard var baseContent = (try JSONSerialization.jsonObject(with: data, options: .fragmentsAllowed)) as? [String: Any] else {
             return false
         }
@@ -81,17 +88,26 @@ extension RestWebViewStep: WebStepConfiguration {
         baseContent["type"] = self.properties.type
         
         let builtData = try JSONSerialization.data(withJSONObject: baseContent, options: .fragmentsAllowed)
+        
+        ARLogger.log("Loaded web configuration: \(String(data: builtData, encoding: .utf8))", level: .debug)
+        
         self.configuration = try JSONDecoder().decode(WebViewWebViewMetadata.self, from: builtData)
 
         return true
     }
     
     public var hideNavigation: Bool {
-        configuration?.hideNavigation ?? true
+        guard let configuration = self.configuration else {
+            return true
+        }
+        return configuration.hideNavigation ?? false
     }
     
     public var hideNavigationBar: Bool {
-        configuration?.hideTopNavigationBar ?? true
+        guard let configuration = self.configuration else {
+            return true
+        }
+        return configuration.hideTopNavigationBar ?? false
     }
     
     public var resolvedUrl: URL? {
@@ -100,7 +116,10 @@ extension RestWebViewStep: WebStepConfiguration {
     }
     
     public var sharingEnabled: Bool {
-        configuration?.sharingEnabled ?? false
+        guard let configuration = self.configuration else {
+            return false
+        }
+        return configuration.sharingEnabled ?? true
     }
     
     public var actions: [WebViewWebViewItem]? {
