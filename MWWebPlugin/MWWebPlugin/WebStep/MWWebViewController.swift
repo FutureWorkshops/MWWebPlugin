@@ -40,19 +40,6 @@ public class MWWebViewController: MWStepViewController {
     private var hideNavigationBar: Bool {
         return self.webStep.hideNavigationBar
     }
-    private lazy var actionLoadingIndicator = {
-        let stateView = UIView()
-        stateView.layer.cornerRadius = 5.0
-        stateView.backgroundColor = UIColor.black.withAlphaComponent(0.8)
-        stateView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let progress = UIActivityIndicatorView(style: .large)
-        progress.color = .white
-        progress.startAnimating()
-        stateView.addPinnedSubview(progress, insets: .init(top: 10.0, leading: 10.0, bottom: 10.0, trailing: 10.0))
-        
-        return stateView
-    }()
     
     public override func viewDidLoad() {
         super.viewDidLoad()
@@ -145,30 +132,24 @@ public class MWWebViewController: MWStepViewController {
         let action = actions[sender.tag]
         Task {
             do {
-                self.showActionLoading()
+                sender.isEnabled = false //Disabling item to prevent multiple triggers
+                self.showActionLoading(sender: sender)
                 let reloadWebView = try await self.webStep.perform(action: action)
                 self.configureUIElements(animated: false)
-                self.hideActionLoading()
                 if reloadWebView {
                     self.load(showLoading: true)
                 }
             } catch {
-                self.hideActionLoading()
+                self.configureUIElements(animated: false) //Re-showing elements to match current state
                 await self.show(error)
             }
         }
     }
     
-    private func showActionLoading() {
-        self.view.addSubview(self.actionLoadingIndicator)
-        NSLayoutConstraint.activate([
-            self.actionLoadingIndicator.centerXAnchor.constraint(equalTo: self.view.centerXAnchor),
-            self.actionLoadingIndicator.centerYAnchor.constraint(equalTo: self.view.centerYAnchor)
-        ])
-    }
-    
-    private func hideActionLoading() {
-        self.actionLoadingIndicator.removeFromSuperview()
+    private func showActionLoading(sender: UIBarButtonItem) {
+        let indicator = UIActivityIndicatorView()
+        indicator.startAnimating()
+        sender.customView = indicator
     }
     
     private func configureToolbar() {
