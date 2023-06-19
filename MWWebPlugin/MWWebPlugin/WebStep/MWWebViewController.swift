@@ -13,7 +13,10 @@ import UIKit
 public class MWWebViewController: MWStepViewController {
     
     public override var titleMode: StepViewControllerTitleMode { .smallTitle }
-    lazy var continueButton = UIBarButtonItem(title: self.webStep.translate(text: "Next"), style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
+    lazy var continueButton: UIBarButtonItem = {
+        let title = self.webStep.translate(text: self.isLastStepOnFlow ? "Done" : "Next")
+        return UIBarButtonItem(title: title, style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
+    }()
     
     private lazy var webView = {
         let webView = WKWebView()
