@@ -276,6 +276,13 @@ extension MWWebViewController: WKNavigationDelegate {
             await self.show(error)
         }
     }
+    
+    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        Task {
+            await self.hideLoading()
+            await self.show(error)
+        }
+    }
 }
 
 extension MWWebViewController {
