@@ -200,6 +200,15 @@ public class MWWebViewController: MWStepViewController {
         self.webView.load(request)
     }
     
+    private func loadDidComplete() async {
+        await self.hideLoading()
+    }
+    
+    private func loadDidFail(_ error: Error) async {
+        await self.hideLoading()
+        await self.show(error)
+    }
+    
     @MainActor
     private func showUnableToResolveURLError() {
         self.hideLoading()
@@ -267,21 +276,15 @@ extension MWWebViewController: WKUIDelegate {
 
 extension MWWebViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        Task { await self.hideLoading() }
+        Task { await self.loadDidComplete() }
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        Task {
-            await self.hideLoading()
-            await self.show(error)
-        }
+        Task { await self.loadDidFail(error) }
     }
     
     public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        Task {
-            await self.hideLoading()
-            await self.show(error)
-        }
+        Task { await self.loadDidFail(error) }
     }
 }
 
