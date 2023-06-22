@@ -13,7 +13,10 @@ import UIKit
 public class MWWebViewController: MWStepViewController {
     
     public override var titleMode: StepViewControllerTitleMode { .smallTitle }
-    lazy var continueButton = UIBarButtonItem(title: self.webStep.translate(text: "Next"), style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
+    lazy var continueButton: UIBarButtonItem = {
+        let title = self.webStep.translate(text: self.isLastStepOnFlow ? "Done" : "Next")
+        return UIBarButtonItem(title: title, style: .done, target: self, action: #selector(self.continueToNextStep(_:)))
+    }()
     
     private lazy var webView = {
         let webView = WKWebView()
@@ -197,6 +200,15 @@ public class MWWebViewController: MWStepViewController {
         self.webView.load(request)
     }
     
+    private func loadDidComplete() async {
+        await self.hideLoading()
+    }
+    
+    private func loadDidFail(_ error: Error) async {
+        await self.hideLoading()
+        await self.show(error)
+    }
+    
     @MainActor
     private func showUnableToResolveURLError() {
         self.hideLoading()
@@ -264,14 +276,15 @@ extension MWWebViewController: WKUIDelegate {
 
 extension MWWebViewController: WKNavigationDelegate {
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        Task { await self.hideLoading() }
+        Task { await self.loadDidComplete() }
     }
     
     public func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        Task {
-            await self.hideLoading()
-            await self.show(error)
-        }
+        Task { await self.loadDidFail(error) }
+    }
+    
+    public func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
+        Task { await self.loadDidFail(error) }
     }
 }
 
